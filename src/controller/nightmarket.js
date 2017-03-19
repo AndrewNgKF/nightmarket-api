@@ -3,11 +3,13 @@ import { Router } from 'express';
 import Nightmarket from '../model/nightmarket';
 import Comment from '../model/comment';
 
+import { authenticate } from '../middleware/authmiddleware';
+
 export default ({ config, db}) => {
   let api = Router();
 
   //CREATE ->  /v1/nightmarket/add
-  api.post('/add', (req, res) => {
+  api.post('/add', authenticate, (req, res) => {
     let newNightmarket = new Nightmarket();
     newNightmarket.name = req.body.name;
     newNightmarket.geometry.coordinates = req.body.geometry.coordinates;
@@ -42,7 +44,7 @@ export default ({ config, db}) => {
   });
 
   //UPDATE -> /v1/nightmarket/:id
-  api.put('/:id', (req, res) => {
+  api.put('/:id', authenticate, (req, res) => {
     Nightmarket.findById(req.params.id, (err, nightmarket) => {
       if (err) {
         res.send(err);
@@ -59,7 +61,7 @@ export default ({ config, db}) => {
   });
 
   //DELETE -> /v1/nightmarket/:id
-  api.delete('/:id', (req, res) => {
+  api.delete('/:id', authenticate, (req, res) => {
     Nightmarket.remove({
       _id: req.params.id
     }, (err, nightmarket) => {
