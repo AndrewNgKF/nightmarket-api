@@ -24,6 +24,10 @@ var _nightmarket = require('../controller/nightmarket');
 
 var _nightmarket2 = _interopRequireDefault(_nightmarket);
 
+var _account = require('../controller/account');
+
+var _account2 = _interopRequireDefault(_account);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _express2.default)();
@@ -31,7 +35,8 @@ var router = (0, _express2.default)();
 (0, _db2.default)(function (db) {
   router.use((0, _middleware2.default)({ config: _config2.default, db: db }));
 
-  rouetr.use('/nightmarket', (0, _nightmarket2.default)({ config: _config2.default, db: db }));
+  router.use('/nightmarket', (0, _nightmarket2.default)({ config: _config2.default, db: db }));
+  router.use('/account', (0, _account2.default)({ config: _config2.default, db: db }));
 });
 
 exports.default = router;
